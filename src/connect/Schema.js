@@ -21,12 +21,6 @@ export const Schema = {
             sort: 'gs1sk',
             description: 'General secondary index',
             project: 'all',
-        },
-        gs2: {
-            hash: 'gs2pk',
-            sort: 'gs2sk',
-            description: 'Secondary index for Model.type for account/user/org',
-            project: 'all',
         }
     },
     models: {
