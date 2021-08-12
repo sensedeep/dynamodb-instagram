@@ -1,18 +1,15 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
-import { commentOnPhoto } from "../data/comment"
-import { Photo } from "../data/photo"
+import { CommentModel } from "../data"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const { username, photoId } = event.pathParameters
-    const photo = new Photo(username, "", photoId)
+    const { photoId } = event.pathParameters
     const { commentingUsername, content } = JSON.parse(event.body)
-    const comment = await commentOnPhoto(photo, commentingUsername, content)
+
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            comment
+            comment: await CommentModel.commentOnPhoto(photoId, commentingUsername, content)
         })
     }
-
     return response
 }

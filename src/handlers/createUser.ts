@@ -1,16 +1,12 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
-import { User, createUser } from "../data/user"
+import { UserModel } from "../data"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const { username, name } = JSON.parse(event.body)
-    const user = new User(username, name)
-    await createUser(user)
-    const response = {
-        statusCode: 200,
+    return {
         body: JSON.stringify({
-            user
-        })
+            user: await UserModel.create({username, name})
+        }),
+        statusCode: 200
     }
-
-    return response
 }

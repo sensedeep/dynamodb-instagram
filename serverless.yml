@@ -2,7 +2,21 @@ service: dynamodb-instagram
 
 plugins:
   - serverless-esbuild
+  - serverless-dynamodb-local
   - serverless-offline
+
+custom:
+  esbuild:
+    bundle: true
+    minify: false
+    sourcemap: true
+    
+  dynamodb:
+    start:
+      inMemory: true
+      migrate: true
+    stages:
+      - dev
 
 provider:
   name: aws
@@ -18,16 +32,17 @@ provider:
         - "dynamodb:UpdateItem"
       Resource:
         - Fn::GetAtt:
-          - InstagramTable 
+          - InstagramTable
           - Arn
-        - Fn::Join: 
+        - Fn::Join:
           - "/"
           - - Fn::GetAtt:
-              - InstagramTable 
+              - InstagramTable
               - Arn
             - "index/GSI1"
   environment:
     TABLE_NAME: { Ref: InstagramTable }
+    # TABLE_NAME: Instagram
 
 functions:
   createUser:
@@ -89,40 +104,41 @@ functions:
     events:
       - http:
           path: /users/{username}/followers
-          method: get 
+          method: get
   listFollowedByUser:
     handler: src/handlers/listFollowedByUser.main
     events:
       - http:
           path: /users/{username}/following
-          method: get 
+          method: get
 
 resources:
   Resources:
     InstagramTable:
       Type: "AWS::DynamoDB::Table"
-      Properties: 
-        AttributeDefinitions: 
-          - AttributeName: "PK"
+      Properties:
+        TableName: Instagram
+        AttributeDefinitions:
+          - AttributeName: "pk"
             AttributeType: "S"
-          - AttributeName: "SK"
+          - AttributeName: "sk"
             AttributeType: "S"
-          - AttributeName: "GSI1PK"
+          - AttributeName: "gs1pk"
             AttributeType: "S"
-          - AttributeName: "GSI1SK"
+          - AttributeName: "gs1sk"
             AttributeType: "S"
-        KeySchema: 
-          - AttributeName: "PK"
+        KeySchema:
+          - AttributeName: "pk"
             KeyType: "HASH"
-          - AttributeName: "SK"
+          - AttributeName: "sk"
             KeyType: "RANGE"
         BillingMode: "PAY_PER_REQUEST"
         GlobalSecondaryIndexes:
-          - IndexName: 'GSI1'
+          - IndexName: 'gs1'
             KeySchema:
-            - AttributeName: "GSI1PK"
+            - AttributeName: "gs1pk"
               KeyType: "HASH"
-            - AttributeName: "GSI1SK"
+            - AttributeName: "gs1sk"
               KeyType: "RANGE"
             Projection:
               ProjectionType: ALL

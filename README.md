@@ -73,7 +73,7 @@ Each entity is discussed further below. Clicking on the entity link will take yo
 
 Below are a few patterns demonstrated in this repository that can be useful for using DynamoDB in your application:
 
-- [Abstract base class for entities](./src/data/base.ts). It defines common methods that need to be implemented for each entity -- `PK` & `SK` values; `toItem()` method; etc.
+- Base class for entities defined from the OneTable Schema
 
 - [`getClient()` function to return a DynamoDB client](./src/data/client.ts). This returns a singleton DynamoDB client to enable re-use of the underlying HTTP connection across Lambda invocations. Also, it includes common client parameters like timeouts to ensure proper configuration.
 

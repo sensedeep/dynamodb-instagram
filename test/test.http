@@ -1,0 +1,46 @@
+
+### Create user "mob"
+POST http://localhost:4000/dev/users
+Content-Type: application/json
+
+{
+    "name": "Michael",
+    "username": "mob"
+}
+
+
+### Create user "alex"
+
+POST http://localhost:4000/dev/users
+Content-Type: application/json
+
+{
+    "name": "Alex",
+    "username": "alex"
+}
+
+### Get user mob
+GET http://localhost:4000/dev/users/mob
+
+### Get user alex
+GET http://localhost:4000/dev/users/alex
+
+### Follow user (mob follow alex)
+
+POST http://localhost:4000/dev/users/alex/followers
+Content-Type: application/json
+
+{
+    "followingUsername": "mob"
+}
+
+
+### Get followers for alex
+GET http://localhost:4000/dev/users/alex/followers
+
+{}
+
+### Get following for mob
+GET http://localhost:4000/dev/users/mob/following
+
+{}

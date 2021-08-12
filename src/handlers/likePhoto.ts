@@ -1,18 +1,14 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
-import { likePhoto } from "../data/like"
-import { Photo } from "../data/photo"
+import { LikeModel } from "../data"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
-    const { username, photoId } = event.pathParameters
-    const photo = new Photo(username, "", photoId)
+    const { photoId } = event.pathParameters
     const { likingUsername } = JSON.parse(event.body)
-    const like = await likePhoto(photo, likingUsername )
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            like
+            like: await LikeModel.likePhoto(photoId, likingUsername)
         })
     }
-
     return response
 }

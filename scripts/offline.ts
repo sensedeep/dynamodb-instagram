@@ -14,6 +14,8 @@ const main = async () => {
             return run("pm2", ["start", "sls", "--name", name, "-l", "pm2.log", "--", ...slsArguments])
         case "stop":
             return run("pm2", ["delete", name])
+        case "debug":
+            return run("node", ["--inspect", "sls", ...slsArguments])
     }
 }
 

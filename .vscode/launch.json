@@ -1,0 +1,21 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "pwa-node",
+            "request": "launch",
+            "name": "Debug",
+            "runtimeExecutable": "npm",
+            "runtimeArgs": [
+                "--preserve-symlinks",
+                "run-script",
+                "debug"
+            ],
+            "smartStep": true,
+            "skipFiles": [
+                "<node_internals>/**",
+                "**/async_hooks.js"
+            ]
+        }
+    ]
+}

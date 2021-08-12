@@ -1,15 +1,13 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler } from "aws-lambda"
-import { listFollowedByUser} from "../data/follow"
+import { FollowModel } from "../data"
 
 export const main: APIGatewayProxyHandler = async (event: APIGatewayProxyEvent) => {
     const { username } = event.pathParameters
-    const following = await listFollowedByUser(username)
     const response = {
         statusCode: 200,
         body: JSON.stringify({
-            following
+            following: await FollowModel.listFollowedByUser(username)
         })
     }
-
     return response
 }
