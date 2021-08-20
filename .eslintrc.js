@@ -14,6 +14,7 @@ module.exports = {
     ],
     plugins: ["@typescript-eslint", "import", "jest"],
     rules: {
+        "indent": ["warn", 4],
         "vue/attributes-order": "off",
         "no-prototype-builtins": "off",
         "import/no-default-export": "off",

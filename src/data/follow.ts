@@ -20,7 +20,7 @@ class FollowClass extends Model<Follow> {
     async listFollowersOfUser(username: string): Promise<User[]> {
         const follows = await this.find({followedUsername: username})
         const batch = {}
-        for (let follow of follows) {
+        for (const follow of follows) {
             await UserModel.get({username: follow.followingUsername}, {batch})
         }
         return await OneTable.batchGet(batch, {parse: true})
@@ -29,7 +29,7 @@ class FollowClass extends Model<Follow> {
     async listFollowedByUser(username: string): Promise<User[]> {
         const following = await this.find({followingUsername: username}, {index: 'gs1'})
         const batch = {}
-        for (let follow of following) {
+        for (const follow of following) {
             await UserModel.get({username: follow.followedUsername}, {batch})
         }
         return await OneTable.batchGet(batch, {parse: true})
