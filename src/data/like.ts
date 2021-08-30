@@ -8,7 +8,6 @@ export class LikeClass extends Model<Like> {
         super(OneTable, 'Like')
     }
 
-    //  MOB rename like
     async likePhoto(photoId: string, likingUsername: string): Promise<Like> {
         const transaction = {}
         const like = await LikeModel.create({likingUsername, photoId}, {transaction})
@@ -17,7 +16,6 @@ export class LikeClass extends Model<Like> {
         return like
     }
 
-    //  MOB rename list
     async listLikesForPhoto(photoId: string): Promise<Like[]> {
         return LikeModel.find({photoId}, {index: 'gs1', reverse: true})
     }
